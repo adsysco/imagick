@@ -11,7 +11,7 @@ jobs:
         arch: ["x64"]
         ts: ["ts", "nts"]
         vsversion: ["16.0"]
-    runs-on: windows-2022
+    runs-on: windows-2019
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
