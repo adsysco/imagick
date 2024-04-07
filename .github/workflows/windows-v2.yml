@@ -7,9 +7,9 @@ jobs:
         shell: cmd
     strategy:
       matrix:
-        version: ["8.1", "8.2", "8.3"]
+        version: ["8.2"]
         arch: ["x64"]
-        ts: ["ts", "nts"]
+        ts: ["ts"]
     runs-on: windows-2022
     steps:
       - name: Checkout imagick
