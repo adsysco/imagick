@@ -7,12 +7,13 @@ jobs:
         shell: cmd
     strategy:
       matrix:
-        version: ["8.2"]
+        version: ["8.1", "8.2", "8.3"]
         arch: ["x64"]
-        ts: ["ts"]
+        ts: ["ts", "nts"]
+        vsversion: ["16.0"]
     runs-on: windows-2022
     steps:
-      - name: Checkout imagick
+      - name: Checkout repo
         uses: actions/checkout@v4
       - name: Setup PHP
         id: setup-php
@@ -30,16 +31,17 @@ jobs:
         with:
           arch: ${{matrix.arch}}
           toolset: ${{steps.setup-php.outputs.toolset}}
-      - name: phpize
+          vsversion: "${{ matrix.vsversion }}"
+      - name: Generate build files
         run: phpize
-      - name: configure
+      - name: Configure build
         run: configure --with-imagick --with-php-build=..\deps --with-prefix=${{steps.setup-php.outputs.prefix}}
-      - name: make
+      - name: Build
         run: nmake
-      - name: test
+      - name: Run tests
         run: nmake test TESTS="-j4 --show-diff -g FAIL,BORK,WARN,LEAK tests"
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: "imagick_${{ matrix.php-version }}_${{ matrix.ts }}_${{ matrix.arch }}"
-          path: ${{ matrix.arch }}/
+          name: "imagick_${{ matrix.version }}_${{ matrix.ts }}_${{ matrix.arch }}"
+          path: ${{ matrix.arch }}/Release_${{ matrix.ts.uppercase }}/php_imagick.dll
