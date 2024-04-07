@@ -44,4 +44,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "imagick_${{ matrix.version }}_${{ matrix.ts }}_${{ matrix.arch }}"
-          path: ${{ matrix.arch }}/Release_${{ matrix.ts == 'ts' && 'TS' || 'NTS' }}/php_imagick.dll
+          path: ${{ matrix.arch }}/Release_TS/php_imagick.dll
