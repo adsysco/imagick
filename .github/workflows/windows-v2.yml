@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup PHP
         id: setup-php
-        uses: cmb69/setup-php-sdk@v0.7
+        uses: php/setup-php-sdk@v0.8
         with:
           version: ${{matrix.version}}
           arch: ${{matrix.arch}}
@@ -38,3 +38,8 @@ jobs:
         run: nmake
       - name: test
         run: nmake test TESTS="-j4 --show-diff -g FAIL,BORK,WARN,LEAK tests"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "imagick_${{ matrix.php-version }}_${{ matrix.ts }}_${{ matrix.arch }}"
+          path: ${{ matrix.arch }}/
